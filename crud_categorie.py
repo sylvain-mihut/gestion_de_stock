@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 class CRUD_Categorie:
     def __init__(self, host, user, password, database):
         self.db = mysql.connector.connect(

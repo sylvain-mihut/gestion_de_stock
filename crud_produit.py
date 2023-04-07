@@ -44,4 +44,3 @@ class CRUD_Produit:
         cursor.execute(sql)
         return cursor.fetchall()
 
-crud_Produit = CRUD_Produit("localhost", "root", "", "boutique")
