@@ -1,46 +1,36 @@
 import mysql.connector
+from Connect import *
 
-class CRUD_Produit:
-    def __init__(self, host, user, password, database):
-        self.db = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database
-        )
+class CRUD_Produit(Connect):
+    def __init__(self):
+        super().__init__()
     
     def create(self, nom, description, prix, quantite, id_categorie):
-        cursor = self.db.cursor()
         sql = "INSERT INTO produit (nom, description, prix, quantite, id_categorie) VALUES (%s, %s, %s, %s, %s)"
         val = (nom, description, prix, quantite, id_categorie)
-        cursor.execute(sql, val)
-        self.db.commit()
-        return cursor.lastrowid
+        self.cursor.execute(sql, val)
+        self.conn.commit()
     
     def read(self, id):
-        cursor = self.db.cursor()
         sql = "SELECT * FROM produit WHERE id=%s"
         val = (id,)
-        cursor.execute(sql, val)
-        return cursor.fetchone()
+        self.cursor.execute(sql, val)
+        return self.cursor.fetchone()
     
     def update(self, id, nom, description, prix, quantite, id_categorie):
-        cursor = self.db.cursor()
         sql = "UPDATE produit SET nom=%s, description=%s, prix=%s, quantite=%s, id_categorie=%s WHERE id=%s"
         val = (nom, description, prix, quantite, id_categorie, id)
-        cursor.execute(sql, val)
-        self.db.commit()
+        self.cursor.execute(sql, val)
+        self.conn.commit()
     
     def delete(self, id):
-        cursor = self.db.cursor()
         sql = "DELETE FROM produit WHERE id=%s"
         val = (id,)
-        cursor.execute(sql, val)
-        self.db.commit()
+        self.cursor.execute(sql, val)
+        self.conn.commit()
 
     def list_all(self):
-        cursor = self.db.cursor()
         sql = "SELECT * FROM produit"
-        cursor.execute(sql)
-        return cursor.fetchall()
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
 

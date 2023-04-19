@@ -1,49 +1,38 @@
 import mysql.connector
+from Connect import *
 
-
-class CRUD_Categorie:
-    def __init__(self, host, user, password, database):
-        self.db = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database
-        )
+class CRUD_Categorie(Connect):
+    def __init__(self):
+        super().__init__()
     
     def create(self, nom):
-        cursor = self.db.cursor()
         sql = "INSERT INTO categorie (nom) VALUES (%s)"
         val = (nom)
-        cursor.execute(sql, val)
-        self.db.commit()
-        return cursor.lastrowid
+        self.cursor.execute(sql, val)
+        self.conn.commit()
+        return self.cursor.lastrowid
     
     def read(self, id):
-        cursor = self.db.cursor()
         sql = "SELECT * FROM categorie WHERE id=%s"
         val = (id)
-        cursor.execute(sql, val)
-        return cursor.fetchone()
+        self.cursor.execute(sql, val)
+        return self.cursor.fetchone()
     
     def update(self, id, nom):
-        cursor = self.db.cursor()
         sql = "UPDATE categorie SET nom=%s"
         val = (nom, id)
-        cursor.execute(sql, val)
-        self.db.commit()
+        self.cursor.execute(sql, val)
+        self.conn.commit()
     
     def delete(self, id):
-        cursor = self.db.cursor()
         sql = "DELETE FROM categorie WHERE id=%s"
         val = (id,)
-        cursor.execute(sql, val)
-        self.db.commit()
+        self.cursor.execute(sql, val)
+        self.conn.commit()
 
     def list_all(self):
-        cursor = self.db.cursor()
         sql = "SELECT * FROM categorie"
-        cursor.execute(sql)
-        return cursor.fetchall()
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
 
 
-crud_Categorie = CRUD_Categorie("localhost", "root", "", "boutique")
